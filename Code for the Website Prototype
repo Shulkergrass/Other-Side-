@@ -1,0 +1,293 @@
+import React, { useState } from 'react';
+import { Settings, ChevronLeft, ChevronRight, ChevronDown, Filter, Home } from 'lucide-react';
+
+const ArticleView = ({ article, onClose }) => {
+  const [comment, setComment] = useState('');
+  const [selectedView, setSelectedView] = useState('Left Wing');
+
+  return (
+    <div className="min-h-screen bg-gray-700 text-white">
+      {/* Header */}
+      <header className="bg-teal-700 text-white p-4">
+        <h1 className="text-2xl font-bold">Article View</h1>
+      </header>
+
+      {/* Navigation */}
+      <nav className="bg-gray-300 p-2 flex items-center space-x-4 text-black">
+        <button onClick={onClose} className="flex items-center">
+          <div className="p-2 bg-white rounded">
+            <Home className="w-6 h-6" />
+          </div>
+          <span className="ml-2">HOME</span>
+        </button>
+        <div className="font-bold">Other Side</div>
+        <div className="flex-grow">
+          <input type="text" placeholder="Search" className="px-4 py-1 rounded" />
+        </div>
+        <button className="flex items-center">
+          <span>Settings</span>
+          <Settings className="ml-1 w-5 h-5" />
+        </button>
+        <span className="text-lg">Feedback</span>
+      </nav>
+
+      <div className="flex p-4">
+        {/* Main Article Content */}
+        <div className="w-3/4 pr-4">
+          <div className="bg-white rounded p-4 mb-4 h-48">
+            {/* Article preview image */}
+          </div>
+
+          <div className="mb-4 space-y-2">
+            <div className="flex gap-4 items-center">
+              <span>Viewpoint :</span>
+              <span className="bg-white text-black px-3 py-1 rounded">China</span>
+              <span className="bg-white text-black px-3 py-1 rounded">Left Wing</span>
+            </div>
+            <div className="flex gap-4 items-center">
+              <span>Topic :</span>
+              <span className="bg-white text-black px-3 py-1 rounded">Politics</span>
+              <span className="bg-white text-black px-3 py-1 rounded">Conflict</span>
+            </div>
+            <div className="flex gap-4 items-center">
+              <span>Style :</span>
+              <span className="bg-white text-black px-3 py-1 rounded">Text</span>
+              <span className="bg-white text-black px-3 py-1 rounded">Images</span>
+            </div>
+          </div>
+
+          <h1 className="text-6xl mb-6">Headline</h1>
+          
+          <div className="text-lg mb-6 space-y-2">
+            {Array(8).fill("The main body of text goes here -").map((line, i) => (
+              <p key={i} className="border-b border-gray-600 py-2">{line}</p>
+            ))}
+          </div>
+
+          <div className="bg-green-500 p-2 inline-block mb-4">
+            <div className="bg-gray-800 p-4">
+              <svg viewBox="0 0 100 100" className="w-32 h-32">
+                <path d="M50 10 L90 90 L10 90 Z" fill="currentColor" />
+                <circle cx="70" cy="30" r="10" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+          <div className="text-center text-xl">Image Subtext</div>
+        </div>
+
+        {/* Feedback Panel */}
+        <div className="w-1/4 bg-gray-300 text-black p-4 rounded">
+          <h2 className="text-xl mb-4">Which View does this article have?</h2>
+          
+          <div className="space-y-2 mb-6">
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="view"
+                value="Left Wing"
+                checked={selectedView === 'Left Wing'}
+                onChange={(e) => setSelectedView(e.target.value)}
+                className="w-4 h-4"
+              />
+              <span>Left Wing</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="view"
+                value="Central"
+                checked={selectedView === 'Central'}
+                onChange={(e) => setSelectedView(e.target.value)}
+                className="w-4 h-4"
+              />
+              <span>Central</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="view"
+                value="Right Wing"
+                checked={selectedView === 'Right Wing'}
+                onChange={(e) => setSelectedView(e.target.value)}
+                className="w-4 h-4"
+              />
+              <span>Right Wing</span>
+            </label>
+          </div>
+
+          <div className="space-y-2">
+            <h2 className="text-xl">Add a comment</h2>
+            <input
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="w-full p-2 rounded"
+            />
+            <button className="bg-green-600 text-white px-4 py-2 rounded w-full">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const NewsWebsite = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  
+  if (selectedArticle) {
+    return <ArticleView article={selectedArticle} onClose={() => setSelectedArticle(null)} />;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <header className="bg-teal-700 text-white p-4">
+        <h1 className="text-2xl font-bold">Home Page</h1>
+      </header>
+      
+      {/* Navigation Bar */}
+      <nav className="bg-gray-300 p-2 flex items-center space-x-4">
+        <div className="flex items-center">
+          <div className="p-2 bg-white rounded">
+            <Home className="w-6 h-6" />
+          </div>
+          <span className="ml-2">HOME</span>
+        </div>
+        <div className="font-bold">Other Side</div>
+        <div className="flex-grow">
+          <input 
+            type="text" 
+            placeholder="Search"
+            className="px-4 py-1 rounded"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <button className="flex items-center">
+          <span>Settings</span>
+          <Settings className="ml-1 w-5 h-5" />
+        </button>
+      </nav>
+
+      {/* Main Content */}
+      <div className="flex">
+        {/* Left Panel */}
+        <div className="w-1/3 p-4 bg-gray-700 text-white min-h-screen">
+          <div className="bg-white rounded p-4 mb-4 h-64 cursor-pointer"
+               onClick={() => setSelectedArticle({ id: 'main' })}>
+            {/* Main article space */}
+          </div>
+          
+          <div className="mb-4">
+            <p>The other side of the story you recently viewed:</p>
+            <div className="bg-white rounded p-2 text-black mb-2 cursor-pointer"
+                 onClick={() => setSelectedArticle({ id: 'related' })}>
+              <h3 className="font-bold">News article name</h3>
+            </div>
+            <div className="flex">
+              <ChevronLeft className="bg-white rounded text-black cursor-pointer" />
+              <ChevronRight className="bg-white rounded text-black ml-2 cursor-pointer" />
+            </div>
+          </div>
+          
+          <div>
+            <p>Here is a similar article from the view of China</p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {['China', 'Left Wing', 'Political', 'Conflict', 'Text', 'Images'].map((tag) => (
+                <span key={tag} className="bg-white text-black px-3 py-1 rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Center Panel */}
+        <div className="w-1/2 p-4 bg-gray-200">
+          {[1, 2, 3].map((num) => (
+            <div key={num} className="mb-6">
+              <div 
+                className="bg-white rounded p-4 mb-2 h-32 cursor-pointer"
+                onClick={() => setSelectedArticle({ id: `story${num}` })}
+              >
+                {/* Story preview space */}
+              </div>
+              <div className="flex justify-between items-center">
+                <h3 className="font-bold">Recommended story {num}</h3>
+                <div className="flex gap-2">
+                  {num === 1 && (
+                    <>
+                      <span className="bg-white px-3 py-1 rounded">BBC</span>
+                      <span className="bg-white px-3 py-1 rounded">No Bias</span>
+                    </>
+                  )}
+                  {num === 2 && (
+                    <>
+                      <span className="bg-white px-3 py-1 rounded">Left Wing</span>
+                      <span className="bg-white px-3 py-1 rounded">America</span>
+                    </>
+                  )}
+                  {num === 3 && (
+                    <>
+                      <span className="bg-white px-3 py-1 rounded">Video</span>
+                      <span className="bg-white px-3 py-1 rounded">Finance</span>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+          <div className="flex justify-center">
+            <ChevronDown className="w-8 h-8" />
+          </div>
+        </div>
+
+        {/* Right Panel */}
+        <div className="w-1/6 p-4 bg-gray-300">
+          <div className="flex items-center justify-between mb-4">
+            <Filter className="w-6 h-6" />
+            <span className="text-lg">Filter</span>
+          </div>
+          
+          <div className="mb-4">
+            <div className="flex items-center justify-between">
+              <span>Country</span>
+              <ChevronDown className="w-4 h-4" />
+            </div>
+          </div>
+          
+          <div className="mb-4">
+            <div className="flex items-center justify-between">
+              <span>Publisher</span>
+              <ChevronDown className="w-4 h-4" />
+            </div>
+            <ul className="ml-4 mt-2">
+              {['BBC', 'The Times', 'The Guardian', 'ITV', 'Social Media', 'Other'].map((publisher) => (
+                <li key={publisher} className="mb-1">- {publisher}</li>
+              ))}
+            </ul>
+          </div>
+          
+          <div className="mb-4">
+            <div className="flex items-center justify-between">
+              <span>Topic</span>
+              <ChevronDown className="w-4 h-4" />
+            </div>
+          </div>
+          
+          <div>
+            <div className="flex items-center justify-between">
+              <span>Viewpoint</span>
+              <ChevronDown className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NewsWebsite;
